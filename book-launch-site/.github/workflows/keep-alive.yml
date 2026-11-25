@@ -1,0 +1,35 @@
+name: Keep Supabase Awake
+
+on:
+  schedule:
+    # Runs every 3 days at 00:00 UTC
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allows you to run it manually to test it
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging Supabase to keep it awake..."
+          # We hit the REST API for the 'rsvps' table. 
+          # We use the 'limit=1' query so it's a tiny, fast request.
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X GET "$SUPABASE_URL/rest/v1/rsvps?select=id&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY")
+          
+          echo "Response Status Code: $STATUS_CODE"
+          
+          # 200 (Success) or 206 (Partial Content) means the DB is awake and responding.
+          # Even a 401/403 (Unauthorized) means the DB is awake, it's just blocking the read (due to RLS).
+          if [ "$STATUS_CODE" -eq 200 ] || [ "$STATUS_CODE" -eq 206 ] || [ "$STATUS_CODE" -eq 401 ] || [ "$STATUS_CODE" -eq 403 ]; then
+            echo "✅ Supabase is awake!"
+          else
+            echo "❌ Failed to reach Supabase. Status code: $STATUS_CODE"
+            exit 1
+          fi
