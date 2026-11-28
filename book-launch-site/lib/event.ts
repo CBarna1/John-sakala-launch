@@ -12,7 +12,11 @@ export const EVENT_TIME = "5:00 PM - 7:30 PM";
 export const CITY = "Lusaka";
 export const VENUE = "Africa Works Space, Agora Village Mall";
 export const VENUE_ADDRESS = "Thabo Mbeki Road, Mass Media, Lusaka";
-export const ADMISSION_FEE = 200;
+export const BOOK_PREORDER_OPTIONS = [
+  { copies: 0, label: "No pre-order", price: 0 },
+  { copies: 1, label: "1 copy — K300", price: 300 },
+  { copies: 2, label: "2 copies — K550", price: 550 },
+] as const;
 export const PAYMENT_REGISTERED_NAME = "Dorcas Nakasula";
 export const PAYMENT_NUMBERS = ["0963756987", "0972352332"];
 

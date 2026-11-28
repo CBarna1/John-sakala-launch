@@ -2,8 +2,8 @@ import Image from "next/image";
 import RSVPForm from "./components/RSVPForm";
 import Countdown from "./components/Countdown";
 import {
-  ADMISSION_FEE,
   BOOK,
+  BOOK_PREORDER_OPTIONS,
   EVENT_DATE_LABEL,
   EVENT_TIME,
   PAYMENT_NUMBERS,
@@ -36,14 +36,14 @@ export default function Home() {
               <p className="font-semibold text-amber-300">{EVENT_DATE_LABEL} · {EVENT_TIME}</p>
               <p className="mt-2">{VENUE}</p>
               <p>{VENUE_ADDRESS}</p>
-              <p className="mt-4 font-bold text-amber-300">Admission: K{ADMISSION_FEE} per person</p>
+              <p className="mt-4 font-bold text-amber-300">Free admission · Invitation only</p>
             </div>
 
             <a
               href="#rsvp"
               className="mt-8 inline-block rounded-full bg-amber-500 px-8 py-4 font-bold tracking-wide text-slate-950 shadow-lg shadow-amber-500/20 transition hover:bg-amber-400"
             >
-              RSVP & Reserve a Copy
+              RSVP & Pre-order a Copy
             </a>
           </div>
 
@@ -100,12 +100,20 @@ export default function Home() {
       {/* RSVP Form */}
       <section id="rsvp" className="py-24 px-4">
         <div className="max-w-md mx-auto">
-          <h2 className="text-3xl font-serif text-center mb-8">Reserve Your Spot</h2>
+          <h2 className="text-3xl font-serif text-center mb-4">Invitation RSVP</h2>
+          <p className="mb-8 text-center text-sm text-slate-300">
+            Admission is free. Please RSVP only if you have received an invitation.
+          </p>
           <div className="mb-6 rounded-xl border border-amber-500/40 bg-slate-800 p-6">
-            <h3 className="font-serif text-xl text-amber-400">Admission Payment</h3>
+            <h3 className="font-serif text-xl text-amber-400">Book Pre-orders</h3>
             <p className="mt-2 text-sm text-slate-300">
-              Admission is K{ADMISSION_FEE} per person. Pay using either number below:
+              Pre-order your copy using either payment number below:
             </p>
+            <ul className="mt-3 space-y-1 text-sm text-slate-200">
+              {BOOK_PREORDER_OPTIONS.filter(({ copies }) => copies > 0).map(({ copies, price }) => (
+                <li key={copies}>{copies} {copies === 1 ? "copy" : "copies"} — K{price}</li>
+              ))}
+            </ul>
             <ul className="mt-3 space-y-2">
               {PAYMENT_NUMBERS.map((number) => (
                 <li key={number}>

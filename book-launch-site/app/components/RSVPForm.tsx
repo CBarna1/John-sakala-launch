@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { ADMISSION_FEE } from '@/lib/event';
+import { BOOK_PREORDER_OPTIONS } from '@/lib/event';
 
 export default function RSVPForm() {
   const [form, setForm] = useState({
@@ -8,6 +8,7 @@ export default function RSVPForm() {
     guestCount: 1, bookCopies: 0, message: ''
   });
   const [status, setStatus] = useState<'idle'|'loading'|'success'|'error'>('idle');
+  const selectedPreorder = BOOK_PREORDER_OPTIONS.find(({ copies }) => copies === form.bookCopies);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,21 +54,28 @@ export default function RSVPForm() {
       {form.attending === 'yes' && (
         <>
           <div>
-            <label className="text-sm text-slate-400 mb-1 block">Number of guests (including yourself)</label>
+            <label className="text-sm text-slate-400 mb-1 block">
+              Number attending (including yourself; each attendee must have an invitation)
+            </label>
             <input type="number" min="1" max="5" value={form.guestCount}
               onChange={e => setForm({...form, guestCount: +e.target.value})}
               className="w-full p-3 bg-slate-900 border border-slate-700 rounded text-white focus:border-amber-500 outline-none transition" />
-            <p className="mt-2 text-sm text-amber-300">
-              Admission total: K{ADMISSION_FEE * form.guestCount}
-            </p>
           </div>
           
           <div>
-            <label className="text-sm text-amber-400 mb-1 block font-medium">Reserve a copy of the book?</label>
-            <input type="number" min="0" max="10" value={form.bookCopies}
-              onChange={e => setForm({...form, bookCopies: +e.target.value})}
-              className="w-full p-3 bg-slate-900 border border-amber-500/50 rounded text-white focus:border-amber-500 outline-none transition" />
-            <p className="text-xs text-slate-500 mt-1">You can pay for your copy at the venue.</p>
+            <label className="text-sm text-amber-400 mb-1 block font-medium">Pre-order copies</label>
+            <select value={form.bookCopies}
+              onChange={e => setForm({...form, bookCopies: Number(e.target.value)})}
+              className="w-full p-3 bg-slate-900 border border-amber-500/50 rounded text-white focus:border-amber-500 outline-none transition">
+              {BOOK_PREORDER_OPTIONS.map(({ copies, label }) => (
+                <option key={copies} value={copies}>{label}</option>
+              ))}
+            </select>
+            {selectedPreorder && selectedPreorder.copies > 0 && (
+              <p className="mt-2 text-sm text-amber-300">
+                Pre-order total: K{selectedPreorder.price}
+              </p>
+            )}
           </div>
         </>
       )}
