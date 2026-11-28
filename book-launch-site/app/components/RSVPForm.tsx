@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { ADMISSION_FEE } from '@/lib/event';
 
 export default function RSVPForm() {
   const [form, setForm] = useState({
@@ -56,6 +57,9 @@ export default function RSVPForm() {
             <input type="number" min="1" max="5" value={form.guestCount}
               onChange={e => setForm({...form, guestCount: +e.target.value})}
               className="w-full p-3 bg-slate-900 border border-slate-700 rounded text-white focus:border-amber-500 outline-none transition" />
+            <p className="mt-2 text-sm text-amber-300">
+              Admission total: K{ADMISSION_FEE * form.guestCount}
+            </p>
           </div>
           
           <div>

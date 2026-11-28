@@ -1,7 +1,16 @@
 import Image from "next/image";
 import RSVPForm from "./components/RSVPForm";
 import Countdown from "./components/Countdown";
-import { BOOK, EVENT_DATE_LABEL, EVENT_TIME, VENUE, VENUE_ADDRESS } from "@/lib/event";
+import {
+  ADMISSION_FEE,
+  BOOK,
+  EVENT_DATE_LABEL,
+  EVENT_TIME,
+  PAYMENT_NUMBERS,
+  PAYMENT_REGISTERED_NAME,
+  VENUE,
+  VENUE_ADDRESS,
+} from "@/lib/event";
 
 export default function Home() {
   return (
@@ -27,6 +36,7 @@ export default function Home() {
               <p className="font-semibold text-amber-300">{EVENT_DATE_LABEL} · {EVENT_TIME}</p>
               <p className="mt-2">{VENUE}</p>
               <p>{VENUE_ADDRESS}</p>
+              <p className="mt-4 font-bold text-amber-300">Admission: K{ADMISSION_FEE} per person</p>
             </div>
 
             <a
@@ -91,6 +101,24 @@ export default function Home() {
       <section id="rsvp" className="py-24 px-4">
         <div className="max-w-md mx-auto">
           <h2 className="text-3xl font-serif text-center mb-8">Reserve Your Spot</h2>
+          <div className="mb-6 rounded-xl border border-amber-500/40 bg-slate-800 p-6">
+            <h3 className="font-serif text-xl text-amber-400">Admission Payment</h3>
+            <p className="mt-2 text-sm text-slate-300">
+              Admission is K{ADMISSION_FEE} per person. Pay using either number below:
+            </p>
+            <ul className="mt-3 space-y-2">
+              {PAYMENT_NUMBERS.map((number) => (
+                <li key={number}>
+                  <a className="font-semibold text-white underline decoration-amber-400 underline-offset-4" href={`tel:${number}`}>
+                    {number}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-sm text-slate-400">
+              Both numbers are registered under <span className="font-medium text-slate-200">{PAYMENT_REGISTERED_NAME}</span>.
+            </p>
+          </div>
           <RSVPForm />
         </div>
       </section>
