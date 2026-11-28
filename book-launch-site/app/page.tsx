@@ -37,6 +37,7 @@ export default function Home() {
               <p className="mt-2">{VENUE}</p>
               <p>{VENUE_ADDRESS}</p>
               <p className="mt-4 font-bold text-amber-300">Free admission · Invitation only</p>
+              <p className="mt-2">Dress code: <span className="font-semibold text-white">Smart Casual</span></p>
             </div>
 
             <a
