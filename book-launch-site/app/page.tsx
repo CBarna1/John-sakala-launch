@@ -1,48 +1,85 @@
 import Image from "next/image";
 import RSVPForm from "./components/RSVPForm";
 import Countdown from "./components/Countdown";
-import { BOOK, CITY, EVENT_DATE_LABEL, EVENT_TIME, VENUE } from "@/lib/event";
+import { BOOK, EVENT_DATE_LABEL, EVENT_TIME, VENUE, VENUE_ADDRESS } from "@/lib/event";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-amber-500 selection:text-slate-900">
       
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center min-h-[90vh] px-6 py-20 text-center relative overflow-hidden">
-        {/* Background Accent */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-amber-500/10 rounded-full blur-3xl -z-10" />
+      <section className="relative min-h-[92vh] overflow-hidden px-6 py-16 sm:py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(245,158,11,0.16),_transparent_32%),radial-gradient(circle_at_bottom_left,_rgba(94,234,212,0.06),_transparent_28%)]" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1fr_420px]">
+          <div className="text-center lg:text-left">
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.32em] text-amber-400">
+              You are invited to the book launch
+            </p>
+            <h1 className="text-6xl font-serif font-bold leading-[0.9] text-white sm:text-8xl">
+              {BOOK.title}
+            </h1>
+            <p className="mx-auto mt-6 max-w-xl font-serif text-xl italic text-slate-300 lg:mx-0">
+              {BOOK.subtitle}
+            </p>
+            <p className="mt-5 text-lg font-medium text-white">by {BOOK.author}</p>
 
-        {/* Book Cover Image placeholder */}
-        <div className="relative w-48 h-72 sm:w-64 sm:h-96 shadow-2xl mb-12 rounded-md overflow-hidden ring-1 ring-white/20">
-           {/* Replace src with your actual book cover image in the /public folder */}
-          <Image 
-            src="/book-cover.jpg" 
-            alt={BOOK.title} 
-            fill 
-            className="object-cover" 
-            priority
-          />
+            <div className="mx-auto mt-8 max-w-xl border-y border-white/10 py-5 text-sm text-slate-300 lg:mx-0">
+              <p className="font-semibold text-amber-300">{EVENT_DATE_LABEL} · {EVENT_TIME}</p>
+              <p className="mt-2">{VENUE}</p>
+              <p>{VENUE_ADDRESS}</p>
+            </div>
+
+            <a
+              href="#rsvp"
+              className="mt-8 inline-block rounded-full bg-amber-500 px-8 py-4 font-bold tracking-wide text-slate-950 shadow-lg shadow-amber-500/20 transition hover:bg-amber-400"
+            >
+              RSVP & Reserve a Copy
+            </a>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-[420px]">
+            <div className="absolute -inset-5 rotate-3 rounded-[2rem] border border-amber-300/20" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] shadow-2xl ring-1 ring-white/20">
+              <Image
+                src="/finish-your-race-cover.jpg"
+                alt={`${BOOK.title} book cover`}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
         </div>
+      </section>
 
-        <p className="text-amber-400 uppercase tracking-widest text-sm mb-4 font-semibold">
-          You are invited to the launch of
-        </p>
-        <h1 className="text-5xl sm:text-7xl font-serif font-bold mb-6 text-white max-w-3xl leading-tight">
-          {BOOK.title}
-        </h1>
-        <p className="text-xl text-slate-300 mb-8">by {BOOK.author}</p>
-        
-        <div className="text-sm font-medium text-slate-400 space-y-2 mb-12">
-          <p>{EVENT_DATE_LABEL} · {EVENT_TIME}</p>
-          <p>{VENUE}, {CITY}</p>
+      {/* Featured people */}
+      <section className="border-y border-slate-700 bg-slate-950/70 px-6 py-20">
+        <div className="mx-auto max-w-5xl">
+          <p className="mb-10 text-center text-sm font-semibold uppercase tracking-[0.28em] text-amber-400">
+            Meet the voices behind the launch
+          </p>
+          <div className="grid gap-8 md:grid-cols-2">
+            <article className="overflow-hidden rounded-2xl border border-slate-700 bg-slate-900">
+              <div className="relative h-96 bg-slate-800">
+                <Image src="/john-sakala.jpg" alt={BOOK.author} fill className="object-cover object-top" />
+              </div>
+              <div className="p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-400">Author</p>
+                <h2 className="mt-2 font-serif text-3xl text-white">{BOOK.author}</h2>
+              </div>
+            </article>
+            <article className="overflow-hidden rounded-2xl border border-slate-700 bg-slate-900">
+              <div className="relative h-96 bg-slate-800">
+                <Image src="/alice-jere-tembo.jpg" alt={BOOK.guestOfHonor} fill className="object-cover object-top" />
+              </div>
+              <div className="p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-400">Guest of Honour</p>
+                <h2 className="mt-2 font-serif text-3xl text-white">{BOOK.guestOfHonor}</h2>
+                <p className="mt-2 text-slate-400">{BOOK.guestTitle}</p>
+              </div>
+            </article>
+          </div>
         </div>
-
-        <a
-          href="#rsvp"
-          className="bg-amber-500 hover:bg-amber-400 text-slate-900 px-8 py-4 rounded-full font-bold tracking-wide transition shadow-lg shadow-amber-500/20"
-        >
-          RSVP & Reserve a Copy
-        </a>
       </section>
 
       {/* Countdown */}

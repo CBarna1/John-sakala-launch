@@ -13,8 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${BOOK.title} Launch`,
     description: `Join us to celebrate the launch of ${BOOK.title}.`,
-    // If you have a book cover, update this to your live URL later
-    // images: ['https://yourdomain.com/book-cover.jpg'], 
+    images: ['/finish-your-race-cover.jpg'],
   },
 };
 
